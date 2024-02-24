@@ -21,7 +21,11 @@ export const addGenre = async (req, res) => {
 // GET /api/genres
 export const getGenres = async (req, res) => {
     try {
-        const genres = await Genre.find();
+        const genres = await Genre.find().populate({
+            path: "books",
+            select: "-_id -__v -likes -genre -description",
+            populate: { path: "author", select: "name -_id" },
+        });
         if (!genres) {
             return res.status(404).json({ success: false, message: "No genres found" });
         }

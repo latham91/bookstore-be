@@ -4,8 +4,8 @@ export const getAuthors = async (req, res) => {
     try {
         const authors = await Author.find({}, "-__v").populate({
             path: "books",
-            select: "-_id -__v -author -likes",
-            populate: { path: "genre", select: "-_id -__v" },
+            select: "-_id -__v -author -likes -description",
+            populate: { path: "genre", select: "-_id -__v -books" },
         });
 
         if (authors.length === 0) {

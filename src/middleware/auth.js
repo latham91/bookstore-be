@@ -50,7 +50,6 @@ export const comparePassword = async (req, res, next) => {
 export const checkRole = async (req, res, next) => {
     try {
         const { role } = req.user;
-        console.log(req.user);
         if (role !== "admin") {
             return res.status(403).json({ success: false, message: "Unauthorized" });
         }

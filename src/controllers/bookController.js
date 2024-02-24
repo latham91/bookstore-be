@@ -25,6 +25,7 @@ export const addBook = async (req, res) => {
 
         const book = await Book.create({ title, author: findAuthor._id, genre: findGenre._id, description });
         await Author.findByIdAndUpdate(findAuthor._id, { $push: { books: book._id } });
+        await Genre.findByIdAndUpdate(findGenre._id, { $push: { books: book._id } });
 
         return res.status(201).json({ success: true, message: "Book created successfully", book });
     } catch (err) {
@@ -36,7 +37,9 @@ export const addBook = async (req, res) => {
 // GET /api/books
 export const getBooks = async (req, res) => {
     try {
-        const books = await Book.find().populate("author", "-_id -__v -books").populate("genre", "-_id -__v");
+        const books = await Book.find({}, "-likes -__v")
+            .populate("author", "-_id -__v -books -__v")
+            .populate("genre", "-_id -__v -books -__v");
         if (!books) {
             return res.status(404).json({ success: false, message: "No books found" });
         }

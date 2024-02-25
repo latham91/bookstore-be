@@ -49,7 +49,17 @@ export const signinUser = async (req, res) => {
         // Set auth cookie
         res.cookie("bs_auth", token, { httpOnly: true, maxAge: 900000 });
 
-        return res.status(200).json({ success: true, message: `${username} signed in` });
+        return res.status(200).json({ success: true, message: `${username} signed in`, user: req.user, token });
+    } catch (err) {
+        return res.status(500).json({ success: false, message: "Server Error", error: err.message });
+    }
+};
+
+// Verify user
+// POST /api/users/verify
+export const verifyUser = async (req, res) => {
+    try {
+        return res.status(200).json({ success: true, user: req.user });
     } catch (err) {
         return res.status(500).json({ success: false, message: "Server Error", error: err.message });
     }

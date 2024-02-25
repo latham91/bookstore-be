@@ -37,6 +37,19 @@ export const addBook = async (req, res) => {
 // GET /api/books
 export const getBooks = async (req, res) => {
     try {
+        if (req.query.limit) {
+            const limit = parseInt(req.query.limit);
+            const books = await Book.find({}, "-likes -__v")
+                .populate("author", "-_id -__v -books -__v")
+                .populate("genre", "-_id -__v -books -__v")
+                .limit(limit);
+            if (!books) {
+                return res.status(404).json({ success: false, message: "No books found" });
+            }
+
+            return res.status(200).json({ success: true, message: "Books retrieved successfully", books });
+        }
+
         const books = await Book.find({}, "-likes -__v")
             .populate("author", "-_id -__v -books -__v")
             .populate("genre", "-_id -__v -books -__v");

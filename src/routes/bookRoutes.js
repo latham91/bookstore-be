@@ -6,6 +6,6 @@ import verifyJwt from "../middleware/verifyJwt.js";
 const router = Router();
 
 router.post("/add", verifyJwt, checkRole, addBook);
-router.get("/", verifyJwt, getBooks);
+router.get("/", getBooks);
 
 export default router;

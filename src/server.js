@@ -18,7 +18,7 @@ import genreRoutes from "./routes/genreRoutes.js";
 const app = express();
 const port = process.env.PORT || 5001;
 
-app.use(cors());
+app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 

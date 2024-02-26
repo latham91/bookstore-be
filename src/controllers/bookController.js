@@ -42,7 +42,8 @@ export const getBooks = async (req, res) => {
             const books = await Book.find({}, "-likes -__v")
                 .populate("author", "-_id -__v -books -__v")
                 .populate("genre", "-_id -__v -books -__v")
-                .limit(limit);
+                .limit(limit)
+                .sort({ createdAt: -1 });
             if (!books) {
                 return res.status(404).json({ success: false, message: "No books found" });
             }

@@ -9,6 +9,10 @@ const bookSchema = new mongoose.Schema({
         type: String,
         required: [true, "please provide a description"],
     },
+    cover: {
+        type: String,
+        default: "no-cover.png",
+    },
     genre: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Genre",
